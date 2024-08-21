@@ -15,6 +15,6 @@ public class Employee {
     private Long id;
     private String name;
     private String position;
-    private double salary;
+    private int salary;
     private String company;
 }
