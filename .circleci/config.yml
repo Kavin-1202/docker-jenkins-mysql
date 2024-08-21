@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-and-push-docker-image:
     docker:
-      - image: cimg/openjdk:17.0  # Updated to a valid CircleCI-maintained image
+      - image: cimg/openjdk:17.0  # CircleCI-maintained image with Java 17
 
     steps:
       - checkout
@@ -20,10 +20,13 @@ jobs:
           command: docker build -t kavin2002/sampleimg:${CIRCLE_SHA1} .  # Build Docker image with commit hash as tag
 
       - run:
-          name: Push Docker Image
+          name: Login to Docker Hub
           command: |
-            echo Velavan2002@ | docker login -u kavin2002 --password-stdin
-            docker push kavin2002/stateimg:${CIRCLE_SHA1}  # Push Docker image to Docker Hub
+            echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - run:
+          name: Push Docker Image
+          command: docker push kavin2002/sampleimg:${CIRCLE_SHA1}  # Push Docker image to Docker Hub
 
 workflows:
   build-and-push-workflow:
